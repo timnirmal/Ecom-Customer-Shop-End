@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 
 // components
 import TableDropdown from "/components/Dropdowns/TableDropdown.js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEdit, faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 
 export default function CardTables({children, className, ...props}) {
     return (
@@ -28,8 +27,42 @@ export default function CardTables({children, className, ...props}) {
                                 {props.title}
                             </h3>
                         </div>
+
+
+                        {/*Add new button in Right edge of table */}
+                        <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+
+                            <button
+                                className={
+                                    "bg-slate-700 text-white font-bold py-2 px-4 rounded-full shadow-none focus:outline-none focus:shadow-outline " +
+                                    (props.color === "light" ? "bg-blueGray-700 text-white" : "bg-white text-blueGray-700")
+                                }
+                                onClick={props.onAddNew}
+                            >
+                                <FontAwesomeIcon icon={faPlus}/>
+                                Add New
+                            </button>
+                            {/*<button
+                                className={(props.color === "light" ? "bg-blueGray-200" : "bg-blueGray-600")}
+                                    onClick={props.onAddNew}
+                            >
+                                <span
+                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
+                                    <svg className="w-5 h-5" fill="none" strokeLinecap="round"
+                                         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <FontAwesomeIcon icon={faPlus}/>
+                                    </svg>
+                                </span>
+                                Add New
+                            </button>*/}
+
+                        </div>
+
                     </div>
                 </div>
+
+
                 <div className="block w-full overflow-x-auto">
                     {/* Projects table */}
                     <table className="items-center w-full bg-transparent border-collapse">
@@ -97,6 +130,7 @@ export default function CardTables({children, className, ...props}) {
                                                         : "bg-blueGray-600")
 
                                                 }
+                                                onClick={() => props.onEdit(product.id)}
                                             >
                                                 <span
                                                     className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
@@ -106,7 +140,7 @@ export default function CardTables({children, className, ...props}) {
                                                     {/*<path
                                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                         */}
-                                                    <FontAwesomeIcon icon={faEdit} />
+                                                    <FontAwesomeIcon icon={faEdit}/>
                                                 </svg>
                                             </span>
                                             </button>
@@ -124,18 +158,19 @@ export default function CardTables({children, className, ...props}) {
                                                         : "bg-blueGray-600")
 
                                                 }
+                                                onClick={() => props.onDelete(product.id)}
                                             >
                                                 <span
                                                     className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
                                                 <svg className="w-5 h-5" fill="none" strokeLinecap="round"
-                                                        strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
-                                                        stroke="currentColor">
+                                                     strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
+                                                     stroke="currentColor">
                                                     {/*Bin Icon*/}
                                                     {/*<i className="fa fa-trash"></i>
                                                     <path
                                                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v9a2 2 0 01-2 2H7m2 0v-9a2 2 0 012-2h7.879M15 7v9a2 2 0 002 2h7M7 7l-.867 12.142A2 2 0 007.138 21H18.138a2 2 0 001.995-1.858L19 7m-5 4V8a2 2 0 012-2h5.879M7 7v9a2 2 0 002 2h9"></path>
                                                     */}
-                                                    <FontAwesomeIcon icon={faTrashCan} />
+                                                    <FontAwesomeIcon icon={faTrashCan}/>
 
                                                 </svg>
                                             </span>
