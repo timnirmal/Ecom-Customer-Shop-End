@@ -109,41 +109,6 @@ const ProductPage: NextPage<NextAppPageProps> = ({}) => {
                     discountPrice={ProductData.discountPrice}
                 />
 
-                <Carousel playTime={3000}/>
-
-
-                <section className="container mx-auto px-0 md:px-4 py-4">
-                    <div
-                        className="grid
-                                    grid-cols-1
-                                    md:grid-cols-2
-                                    lg:grid-cols-3
-                                    2xl:grid-cols-4
-                                    justify-items-center gap-4
-                                    ">
-                        <FourItemCard
-
-                            title="T-Shirts"
-                            Item1="T-Shirt"
-                            Item1Image="/Products/WhiteClock.png"
-                            Item2="T-Shirt"
-                            Item2Image="/Products/WhiteClock.png"
-                            Item3="T-Shirt"
-                            Item3Image="/Products/WhiteClock.png"
-                            Item4="T-Shirt"
-                            Item4Image="/Products/WhiteClock.png"
-                            description="Card description"
-                        />
-                        <Card
-                            title="Men-White-Watch"
-
-                            description="Card description"
-                            image="components/Slidebar/Screenshot(1082).png"
-                        />
-
-                    </div>
-                </section>
-
 
             </Layout>
         </div>

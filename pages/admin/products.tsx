@@ -1,13 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 
 // components
 import CardTables from "/components/Cards/CardTables.tsx";
 
 // layout for page
 import Admin from "/layout/Admin.js";
-import {supabaseClient} from "../../lib/supabase";
 import {useRealtime} from "react-supabase";
-
 
 // json object of products
 const products = [
@@ -56,67 +54,116 @@ const products = [
 export default function Settings() {
     //const [loadingProducts, setLoadingProducts] = useState(true);
     //const [products, setProducts] = useState([]);
+    //
+    // const realtimeEnable = false;
+    // let ProductsData = undefined;
 
-    const realtimeEnable = false;
-    let ProductsData = undefined;
-
-    if (realtimeEnable) {
-        const [result, reexecute] = useRealtime('products', {
-                select: {
-                    columns: "*",
-                }
+    const [result, reexecute] = useRealtime('products', {
+            select: {
+                columns: "*",
             }
-        )
-        const {data, fetching, error} = result
+        }
+    )
+    const {data, fetching, error} = result
+    console.log("Int Data ", data)
 
-        if (fetching) return <p>Loading...</p>
-        //if (error) return <p>Oh no... {error.message}</p>
 
-        console.log(data)
-        ProductsData = data
-/*
-        if (!ProductsData) {
-            ProductsData = products
-        } else {
-            setLoadingProducts(false)
-        }*/
-
+    function RenderProducts() {
+        if (fetching) {
+            console.log("Fetching")
+            return <div>Loading...</div>
+        }
+        if (error) {
+            console.log("Error", error)
+            return <div>Error: {error.message}</div>
+        }
+        if (data?.length) {
+            console.log("Running Data", data)
+            return <CardTables title="Products"
+                               data={data}
+                               column={[
+                                   "Name", "Price", "Discount", "Category", "Stock", "Edit", "Delete"
+                               ]}
+                //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
+                               onAddNew={onAddNewFunc}
+                               onEdit={onEditFunc}
+                               onDelete={onDeleteFunc}
+            />
+            //return <div>HI</div>
+        }
     }
 
-    console.log("Products", ProductsData)
+    // function RenderProducts() {
+    //     if (fetching) {
+    //         console.log("1 DATA" , data)
+    //         console.log("1 Fetching" , fetching)
+    //         console.log("1 Error" , error)
+    //
+    //         return (
+    //             <div>Loading...</div>
+    //         )
+    //     } else {
+    //         console.log("2 DATA" , data)
+    //         console.log("2 Fetching" , fetching)
+    //         console.log("2 Error" , error)
+    //         if (error) {
+    //             return <div>Error: {error.message}</div>
+    //         } else {
+    //             console.log("DATA" , data)
+    //             console.log("Fetching" , fetching)
+    //             console.log("Error" , error)
+    //             return (
+    //                 <CardTables
+    //                     title="Products"
+    //                     data={data}
+    //                     column={[
+    //                         "Name", "Price", "Discount", "Category", "Stock", "Edit", "Delete"
+    //                     ]}
+    //                     //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
+    //                     onAddNew={onAddNewFunc}
+    //                     onEdit={onEditFunc}
+    //                     onDelete={onDeleteFunc}
+    //                 />
+    //             )
+    //
+    //         }
+    //     }
+    // }
 
-    const subscriptions = supabaseClient.getSubscriptions()
-    console.log("subscriptions", subscriptions)
+    //if (error) return <p>Oh no... {error.message}</p>
+
+    //console.log(data)
+    //ProductsData = data
+
+    // console.log("Products", data)
 
     return (
         <Admin>
             <div className="flex flex-wrap">
-                {/*if ProductsData availabale show CardTables, else show loading..*/}
-
-                <CardTables
-                    title="Products"
-                    data={ProductsData}
-                    column={[
-                        "Name", "Price", "Discount", "Category", "Stock", "Edit", "Delete"
-                    ]}
-                    //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
-                    onAddNew={onAddNewFunc}
-                    onEdit={onEditFunc}
-                    onDelete={onDeleteFunc}
-
-                />
-
-
+                {
+                    RenderProducts()
+                }
             </div>
         </Admin>
     );
 
     function onAddNewFunc() {
         console.log("Add new");
+        // goto admin/new page
+        // Router.push("/admin/new").then(r => {
+        //     console.log(r)
+        // });
     }
 
     function onEditFunc(id) {
         console.log("Edit", id);
+        // return (
+        //     <Link href="/product/[id]" as={`/product/${id}`}>
+        //         <a href="#">
+        //             <button>Edit</button>
+        //         </a>
+        //     </Link>
+        // )
     }
 
     function onDeleteFunc(id) {

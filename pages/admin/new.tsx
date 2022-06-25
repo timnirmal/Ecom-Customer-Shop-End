@@ -6,58 +6,15 @@ import Admin from "/layout/Admin.js";
 import {supabaseClient} from "../../lib/supabase";
 
 
-// json object of products
-const products = [
-    {
-        id: 1,
-        name: "Product 1",
-        description: "This is a product",
-        price: "100",
-        discount: "50",
-        availableQuality: "high",
-        category: "Category 1",
-        subCategory: "Sub Category",
-        tags: ["tag1", "tag2", "tag3"],
-        reviews: "100",
-        stock: "100",
-        discountPrice: "90",
-        images: [
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        ]
-    },
-    {
-        id: 2,
-        name: "Product 2",
-        description: "This is a product 2",
-        price: "200",
-        discount: "10",
-        availableQuality: "low",
-        category: "Category 2",
-        subCategory: "Sub Category 2",
-        tags: ["tag4", "tag2", "tag3"],
-        reviews: "10",
-        stock: "10",
-        discountPrice: "95",
-        images: [
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        ]
-    }
-];
-
-
 function InputField(props: { htmlFor: string, fieldName: string, placeholder: string, value: string, onChange: (e) => void, fieldDescription: string, fieldSize: string }) {
 
     let fieldSize = props.fieldSize;
 
     if (props.fieldSize === undefined) {
         fieldSize = "md:w-full lg:w-1/2  p-3";
-    }
-    else if (props.fieldSize === "half") {
+    } else if (props.fieldSize === "half") {
         fieldSize = "md:w-full lg:w-1/2  p-3";
-    }
-    else if (props.fieldSize === "full") {
+    } else if (props.fieldSize === "full") {
         fieldSize = "w-full p-3";
     }
 
@@ -107,7 +64,8 @@ export default function NewProduct() {
             discount: Discount,
             availablequality: AvailableQuality,
             imgurl: Images,
-            SKU: SKU
+            SKU: SKU,
+            stock: Stock,
         }
 
         console.log(product);
@@ -124,8 +82,7 @@ export default function NewProduct() {
                     }
                 })
             console.log("Insert Done")
-        }
-        catch (err) {
+        } catch (err) {
             console.log("ERR");
         }
 
