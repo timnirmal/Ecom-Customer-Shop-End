@@ -14,6 +14,7 @@ import {DefaultSeo} from 'next-seo'
 import SEO from '../next-seo.config'
 import {MessageProvider} from '../lib/message'
 import {AuthProvider} from "../lib/auth";
+import {SupabaseProvider} from "../lib/supabase";
 
 function MyApp({Component, pageProps}: AppProps) {
     const pageMeta = (Component as any)?.defaultProps?.meta || {}
@@ -27,7 +28,9 @@ function MyApp({Component, pageProps}: AppProps) {
             <DefaultSeo {...pageSEO} />
             <MessageProvider>
                 <AuthProvider>
+                    <SupabaseProvider>
                     <Component {...pageProps} />
+                    </SupabaseProvider>
                 </AuthProvider>
             </MessageProvider>
         </React.Fragment>

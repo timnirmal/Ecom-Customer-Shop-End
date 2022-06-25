@@ -7,6 +7,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 
 export default function CardTables({children, className, ...props}) {
+    console.log("In Table")
+    console.log("In Table")
+    console.log("In Table")
+    console.log("In Table")
+    console.log("In Table")
+    console.log("In Table")
+    console.log(props.data);
+    console.log(typeof props.data);
+
+    if (typeof props.data === "undefined") {
+        return null;
+    }
+
     return (
         <div className={`card ${className}`} {...props}>
             <div

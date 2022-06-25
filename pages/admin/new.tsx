@@ -3,6 +3,7 @@ import React from "react";
 // components
 // layout for page
 import Admin from "/layout/Admin.js";
+import {supabaseClient} from "../../lib/supabase";
 
 
 // json object of products
@@ -46,8 +47,21 @@ const products = [
 ];
 
 
-function InputField(props: { htmlFor: string, fieldName: string, placeholder: string, value: string, onChange: (e) => void, fieldDescription: string }) {
-    return <div className="md:w-full lg:w-1/2  p-3">
+function InputField(props: { htmlFor: string, fieldName: string, placeholder: string, value: string, onChange: (e) => void, fieldDescription: string, fieldSize: string }) {
+
+    let fieldSize = props.fieldSize;
+
+    if (props.fieldSize === undefined) {
+        fieldSize = "md:w-full lg:w-1/2  p-3";
+    }
+    else if (props.fieldSize === "half") {
+        fieldSize = "md:w-full lg:w-1/2  p-3";
+    }
+    else if (props.fieldSize === "full") {
+        fieldSize = "w-full p-3";
+    }
+
+    return <div className={fieldSize}>
         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                htmlFor={props.htmlFor}>
             {props.fieldName}
@@ -79,11 +93,41 @@ export default function NewProduct() {
     const [DiscountPrice, setDiscountPrice] = React.useState("");
     const [Images, setImages] = React.useState("");
     const [Image, setImage] = React.useState("");
+    const [SKU, setSKU] = React.useState("");
 
 
-    function addProduct() {
+    async function addProduct() {
         // add product to database
         console.log("add product");
+        // create product object
+        let product = {
+            name: Name,
+            description: Description,
+            price: Price,
+            discount: Discount,
+            availablequality: AvailableQuality,
+            imgurl: Images,
+            SKU: SKU
+        }
+
+        console.log(product);
+
+        try {
+            // add product to database
+            const {data, error} = await supabaseClient
+                .from('products')
+                .insert([
+                    {...product}
+                ]).then(res => {
+                    if (res.error) {
+                        console.log("Res.ERROR", res.error);
+                    }
+                })
+            console.log("Insert Done")
+        }
+        catch (err) {
+            console.log("ERR");
+        }
 
     }
 
@@ -95,13 +139,15 @@ export default function NewProduct() {
                 <div className="w-full  p-3">
                     <div className="flex flex-wrap">
 
-
                         {/*Product Name*/}
-                        <InputField htmlFor="grid-product-name" fieldName="Product Name" placeholder="Product Name" value={Name}
-                                    onChange={(e) => setName(e.target.value)} fieldDescription="This is the name of the product"/>
+                        <InputField htmlFor="grid-product-name" fieldName="Product Name" placeholder="Product Name"
+                                    value={Name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    fieldDescription="This is the name of the product"/>
 
                         {/*Product Description*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
+                        {/*<div className="md:w-full lg:w-1/2 p-3">*/}
+                        <div className="w-full p-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                    htmlFor="grid-product-description">
                                 Product Description
@@ -117,114 +163,58 @@ export default function NewProduct() {
                             </p>
                         </div>
 
-                        <InputField htmlFor="grid-product-description" fieldName="Product Description" placeholder="Product Description" value={Description}
-                                    onChange={(e) => setDescription(e.target.value)} fieldDescription="This is the description of the product"/>
-
                         {/*Product Price*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-price">
-                                Product Price
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-price" type="text" placeholder="Product Price"
-                                value={Price}
-                                onChange={(e) => setPrice(e.target.value)}
-                            />
-                            <p className="text-gray-700 text-xs italic">
-                                This is the price of the product
-                            </p>
-                        </div>
-
-                        <InputField htmlFor="grid-product-price" fieldName="Product Price" placeholder="Product Price" value={Price}
-                                    onChange={(e) => setPrice(e.target.value)} fieldDescription="This is the price of the product"/>
+                        <InputField htmlFor="grid-product-price" fieldName="Product Price" placeholder="Product Price"
+                                    value={Price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    fieldDescription="This is the price of the product"
+                                    fieldSize="half"/>
 
                         {/*Product Discount*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-discount">
-                                Product Discount
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-discount" type="text" placeholder="Product Discount"
-                            />
-                            <p className="text-gray-700 text-xs italic">
-                                This is the discount of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-discount" fieldName="Product Discount"
+                                    placeholder="Product Discount" value={Discount}
+                                    onChange={(e) => setDiscount(e.target.value)}
+                                    fieldDescription="This is the discount of the product"
+                                    fieldSize="half"/>
 
                         {/*Product Available Quality*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-available-quality">
-                                Product Available Quality
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-available-quality" type="text"
-                                placeholder="Product Available Quality"/>
-                            <p className="text-gray-700 text-xs italic">
-                                This is the available quality of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-available-quality" fieldName="Product Available Quality"
+                                    placeholder="Product Available Quality" value={AvailableQuality}
+                                    onChange={(e) => setAvailableQuality(e.target.value)}
+                                    fieldDescription="This is the available quality of the product"
+                                    fieldSize="half"/>
+
+                        {/*SKU*/}
+                        <InputField htmlFor="grid-product-sku" fieldName="SKU" placeholder="SKU" value={SKU}
+                                    onChange={(e) => setSKU(e.target.value)}
+                                    fieldDescription="This is the SKU of the product"
+                                    fieldSize="half"/>
 
                         {/*Product Category*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-category">
-                                Product Category
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-category" type="text" placeholder="Product Category"/>
-                            <p className="text-gray-700 text-xs italic">
-                                This is the category of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-category" fieldName="Product Category"
+                                    placeholder="Product Category" value={Category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    fieldDescription="This is the category of the product"/>
 
                         {/*Product Reviews*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-reviews">
-                                Product Reviews
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-reviews" type="text" placeholder="Product Reviews"/>
-                            <p className="text-gray-700 text-xs italic">
-                                This is the reviews of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-reviews" fieldName="Product Reviews"
+                                    placeholder="Product Reviews" value={Reviews}
+                                    onChange={(e) => setReviews(e.target.value)}
+                                    fieldDescription="This is the reviews of the product"/>
 
                         {/*Product Stock*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-stock">
-                                Product Stock
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-stock" type="text" placeholder="Product Stock"/>
-                            <p className="text-gray-700 text-xs italic">
-                                This is the stock of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-stock" fieldName="Product Stock" placeholder="Product Stock"
+                                    value={Stock}
+                                    onChange={(e) => setStock(e.target.value)}
+                                    fieldDescription="This is the stock of the product"/>
 
                         {/*Product Images*/}
-                        <div className="md:w-full lg:w-1/2 p-3">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor="grid-product-images">
-                                Product Images
-                            </label>
-                            <input
-                                className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                                id="grid-product-images" type="text" placeholder="Product Images"/>
-                            <p className="text-gray-700 text-xs italic">
-                                This is the images of the product
-                            </p>
-                        </div>
+                        <InputField htmlFor="grid-product-images" fieldName="Product Images"
+                                    placeholder="Product Images" value={Images}
+                                    onChange={(e) => setImages(e.target.value)}
+                                    fieldDescription="This is the images of the product"/>
+
+                        <br/>
 
                         {/*Submit Button*/}
                         <div className="md:w-full lg:w-1/2 p-3">

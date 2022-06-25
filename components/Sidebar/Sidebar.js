@@ -229,7 +229,7 @@ export default function Sidebar() {
                             </li>
 
                             <li className="items-center">
-                                <Link href="/admin/settings">
+                                <Link href="/admin/customers">
                                     <a
                                         href="#pablo"
                                         className={
@@ -247,7 +247,7 @@ export default function Sidebar() {
                                                     : "text-blueGray-300")
                                             }
                                         ></i>{" "}
-                                        Settings
+                                        Customers
                                     </a>
                                 </Link>
                             </li>
