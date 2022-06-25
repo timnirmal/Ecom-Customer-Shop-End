@@ -6,6 +6,7 @@ import CardTables from "/components/Cards/CardTables.tsx";
 // layout for page
 import Admin from "/layout/Admin.js";
 import {supabaseClient} from "../../lib/supabase";
+import {useRealtime} from "react-supabase";
 
 
 // json object of products
@@ -53,13 +54,12 @@ const products = [
 
 
 export default function Settings() {
-    const [loadingProducts, setLoadingProducts] = useState(true);
-    const [products, setProducts] = useState([]);
+    //const [loadingProducts, setLoadingProducts] = useState(true);
+    //const [products, setProducts] = useState([]);
 
     const realtimeEnable = false;
     let ProductsData = undefined;
 
-    /*
     if (realtimeEnable) {
         const [result, reexecute] = useRealtime('products', {
                 select: {
@@ -69,100 +69,21 @@ export default function Settings() {
         )
         const {data, fetching, error} = result
 
-        //if (fetching) return <p>Loading...</p>
+        if (fetching) return <p>Loading...</p>
         //if (error) return <p>Oh no... {error.message}</p>
 
         console.log(data)
         ProductsData = data
-
+/*
         if (!ProductsData) {
             ProductsData = products
-        }
-
-    }
-    */
-
-    /*
-        else {
-            const useProducts = async () => {
-                let {datas, error} = await supabaseClient
-                    .from('products')
-                    .select('*')
-                    .then(res => {
-                        setLoadingProducts(true)
-                        console.log("False DOne")
-                        console.log("False DOne")
-                        console.log("False DOne")
-
-                        // console log data type of res
-                        console.log("Res", res.data)
-                        console.log("Res", res.data)
-                        console.log("Tyepe of Res", typeof res.data)
-                        ProductsData = res.data
-                    })
-                // if data exists, setLoadingProducts to false
-
-                console.log("Products sdsddsdsdsds", ProductsData)
-                console.log("Type of prodiucr ", typeof ProductsData)
-                console.log(typeof ProductsData)
-                console.log(typeof ProductsData)
-
-                return ProductsData
-            }
-
-            ProductsData = useProducts();
-            console.log(ProductsData)
-        }
-
-        console.log(realtimeEnable)
-        console.log("Product Data", ProductsData)
-
-        if (ProductsData.length === 0) {
-            console.log("True Done")
-            console.log("True Done")
-            console.log("True Done")
-            console.log("True Done")
+        } else {
             setLoadingProducts(false)
-        }
+        }*/
 
-
-        // const [{data, error}] = useRealtime('products', {
-        //     select: {
-        //         columns: 'id,name',
-        //     },
-        // })
-
-        //console.log(data)
-
-     */
-
-
-    async function getProducts() {
-        let {data, error} = await supabaseClient
-            .from('products')
-            .select('*')
-        // .then(() => {
-        //     setLoadingProducts(true)
-        // })
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        setLoadingProducts(false)
-        setProducts(data)
-        return data;
     }
 
-
-    if (loadingProducts) {
-        return <p className="text-2xl">Loading ...</p>
-    }
-    else {
-        getProducts();
-    }
-    if (!products.length) return <p className="text-2xl">No products found</p>
-
-    console.log("Products", products)
+    console.log("Products", ProductsData)
 
     const subscriptions = supabaseClient.getSubscriptions()
     console.log("subscriptions", subscriptions)
@@ -171,26 +92,19 @@ export default function Settings() {
         <Admin>
             <div className="flex flex-wrap">
                 {/*if ProductsData availabale show CardTables, else show loading..*/}
-                {loadingProducts ?
 
-                    <p>Loading...</p>
+                <CardTables
+                    title="Products"
+                    data={ProductsData}
+                    column={[
+                        "Name", "Price", "Discount", "Category", "Stock", "Edit", "Delete"
+                    ]}
+                    //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
+                    onAddNew={onAddNewFunc}
+                    onEdit={onEditFunc}
+                    onDelete={onDeleteFunc}
 
-                    :
-
-                    <CardTables
-                        title="Products"
-                        data={ProductsData}
-                        column={[
-                            "Name", "Price", "Discount", "Category", "Stock", "Edit", "Delete"
-                        ]}
-                        //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
-                        onAddNew={onAddNewFunc}
-                        onEdit={onEditFunc}
-                        onDelete={onDeleteFunc}
-
-                    />
-
-                }
+                />
 
 
             </div>
