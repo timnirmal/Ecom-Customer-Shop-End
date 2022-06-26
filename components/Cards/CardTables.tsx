@@ -1,41 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// components
 import TableDropdown from "/components/Dropdowns/TableDropdown.js";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons'
-
-function AddNewButton(props: { color: any, onClick: any }) {
-    return <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-
-        <button
-            className={
-                "bg-slate-700 text-white font-bold py-2 px-4 rounded-full shadow-none focus:outline-none focus:shadow-outline " +
-                (props.color === "light" ? "bg-blueGray-700 text-white" : "bg-white text-blueGray-700")
-            }
-            onClick={props.onClick}
-        >
-            <FontAwesomeIcon icon={faPlus}/>
-            Add New
-        </button>
-        {/*<button
-                                className={(props.color === "light" ? "bg-blueGray-200" : "bg-blueGray-600")}
-                                    onClick={props.onAddNew}
-                            >
-                                <span
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
-                                    <svg className="w-5 h-5" fill="none" strokeLinecap="round"
-                                         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <FontAwesomeIcon icon={faPlus}/>
-                                    </svg>
-                                </span>
-                                Add New
-                            </button>*/}
-
-    </div>;
-}
 
 export default function CardTables({children, className, ...props}) {
     console.log("CardTables props", props);
@@ -43,146 +11,77 @@ export default function CardTables({children, className, ...props}) {
     return (
         <div className={`card ${className}`} {...props}>
             <div
-                className={
-                    "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
-                    (props.color === "light" ? "bg-white" : "bg-blueGray-700 text-white")
-                }
-            >
+                className={"relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " + (props.color === "light" ? "bg-white" : "bg-blueGray-700 text-white")}>
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="flex flex-wrap items-center">
+                        {/*Title*/}
                         <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                            <h3
-                                className={
-                                    "font-semibold text-lg " +
-                                    (props.color === "light" ? "text-blueGray-700" : "text-white")
-                                }
-                            >
+                            <h3 className={"font-semibold text-lg " + (props.color === "light" ? "text-blueGray-700" : "text-white")}>
                                 {props.title}
                             </h3>
                         </div>
 
-
                         {/*Add new button in Right edge of table */}
-                        <AddNewButton color={props.color} onClick={props.onAddNew}/>
-
+                        {props.onAddNew ? (<AddNewButton color={props.color} onClick={props.onAddNew}/>) : null}
                     </div>
                 </div>
-
 
                 <div className="block w-full overflow-x-auto">
                     {/* Projects table */}
                     <table className="items-center w-full bg-transparent border-collapse">
                         <thead>
                         <tr>
-                            {
-                                props.column.map((column) => (
-                                    <th
-                                        key={column.id}
-                                        className={
-                                            "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                                            (props.color === "light"
-                                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                                        }
-                                    >
-                                        {column}
-                                    </th>
-                                ))
+                            <th key={props.primaryKey[0].dataKey}
+                                className={"px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " + (props.color === "light" ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100" : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")}>
+                                {props.primaryKey[0].showName}
+                            </th>
+                            {props.dataDetail.map((dataD) =>
+                                (<th key={dataD.id}
+                                     className={"px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " + (props.color === "light" ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100" : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")}>
+                                    {dataD.showName ? dataD.showName : dataD.name}
+                                </th>))
                             }
                         </tr>
                         </thead>
 
-
                         <tbody>
-
                         {
                             props.data.map((product) => (
                                 <tr>
-                                    <th
-                                        key={product.id}
-                                        className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
-                                    >
-                                        <span
-                                            className={
-                                                "ml-3 font-bold " +
-                                                +(props.color === "light" ? "text-blueGray-600" : "text-white")
-                                            }
-                                        >
-                    {product.name}
-                  </span>
+                                    {/*First data cell in Row*/}
+                                    <CellHead colName={product.name} bold={true} primary={true}
+                                              dataKey={product[props.primaryKey.id]}/>
 
-                                    </th>
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        ${product.price}
-                                    </td>
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        ${product.discount}
-                                    </td>
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        {product.category}
-                                    </td>
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        {product.stock}
-                                    </td>
+                                    {/*Other data cells in a row*/}
+                                    {
+                                        props.dataDetail.map((dataD) => (
+                                            dataD.type === "button" ?
+                                                <IconButton color={props.color}
+                                                            onClick={() => dataD.onClick(product.id)}
+                                                            icon={dataD.icon}/>
+                                                :
+                                                <Cell colName={product[dataD.name]} bold={false} primary={false}
+                                                      type={dataD.type}/>
+
+                                        ))
+                                    }
+
+
+                                    {/*<Cell colName={product.price}/>*/}
+
+                                    {/*<Cell colName={product.discount} type={"money"}/>*/}
+
+                                    {/*<Cell colName={product.category}/>*/}
+
+                                    {/*<Cell colName={product.stock}/>*/}
 
                                     {/*Edit Icon Button*/}
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        {
-                                            // On click of edit button
-                                            <button
-                                                className={
-                                                    (props.color === "light"
-                                                        ? "bg-blueGray-200"
-                                                        : "bg-blueGray-600")
-
-                                                }
-                                                onClick={() => props.onEdit(product.id)}
-                                            >
-                                                <span
-                                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
-                                                <svg className="w-5 h-5" fill="none" strokeLinecap="round"
-                                                     strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
-                                                     stroke="currentColor">
-                                                    {/*<path
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                                        */}
-                                                    <FontAwesomeIcon icon={faEdit}/>
-                                                </svg>
-                                            </span>
-                                            </button>
-                                        }
-                                    </td>
+                                    <IconButton onClick={() => props.onEdit(product.id)}
+                                                icon={faEdit}/>
 
                                     {/*Delete Icon Button*/}
-                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                        {
-                                            // On click of delete button
-                                            <button
-                                                className={
-                                                    (props.color === "light"
-                                                        ? "bg-blueGray-200"
-                                                        : "bg-blueGray-600")
-
-                                                }
-                                                onClick={() => props.onDelete(product.id)}
-                                            >
-                                                <span
-                                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
-                                                <svg className="w-5 h-5" fill="none" strokeLinecap="round"
-                                                     strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
-                                                     stroke="currentColor">
-                                                    {/*Bin Icon*/}
-                                                    {/*<i className="fa fa-trash"></i>
-                                                    <path
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v9a2 2 0 01-2 2H7m2 0v-9a2 2 0 012-2h7.879M15 7v9a2 2 0 002 2h7M7 7l-.867 12.142A2 2 0 007.138 21H18.138a2 2 0 001.995-1.858L19 7m-5 4V8a2 2 0 012-2h5.879M7 7v9a2 2 0 002 2h9"></path>
-                                                    */}
-                                                    <FontAwesomeIcon icon={faTrashCan}/>
-
-                                                </svg>
-                                            </span>
-                                            </button>
-                                        }
-                                    </td>
+                                    <IconButton color={props.color} onClick={() => props.onDelete(product.id)}
+                                                icon={faTrashCan}/>
 
                                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                                         <TableDropdown/>
@@ -206,4 +105,91 @@ CardTables.defaultProps = {
 
 CardTables.propTypes = {
     color: PropTypes.oneOf(["light", "dark"]),
+};
+
+function AddNewButton(props: { color: any, onClick: any }) {
+    return <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+        <button
+            className={
+                "bg-slate-700 text-white font-bold py-2 px-4 rounded-full shadow-none focus:outline-none focus:shadow-outline " +
+                (props.color === "light" ? "bg-blueGray-700 text-white" : "bg-white text-blueGray-700")
+            }
+            onClick={props.onClick}
+        >
+            <FontAwesomeIcon icon={faPlus}/>
+            Add New
+        </button>
+    </div>;
+}
+
+{/*
+function Cell(props: { colName: any, type?: any, bold?: any, primary?: any, dataKey?: any }) {
+    return (
+        <span>
+            {props.primary ?
+                <span>
+                    <th key={props.dataKey}>
+                        <span className="font-semibold">{props.colName}</span>
+                    </th>
+                    </span>
+                :
+
+                <span>
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+
+                        <span className={(props.bold === true ? "font-bold" : "")}>
+            {props.type === "money" ? "$" : ""}
+                            {props.colName}</span>
+
+                    </td>
+                </span>
+            }
+        </span>
+    )
+}*/
+}
+
+function Cell(props: { colName: any, type?: any, bold?: any, primary?: any, dataKey?: any }) {
+    return (
+        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+            {props.type === "money" ? "$" : ""}
+            {props.colName}
+        </td>
+    );
+}
+
+function CellHead(props: { colName: any, type?: any, bold?: any, primary?: any, dataKey?: any }) {
+    return (
+
+        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ml-3 font-bold"
+            key={props.dataKey}
+        >
+            {props.type === "money" ? "$" : ""} {props.colName}
+        </th>
+    );
+}
+
+function IconButton(props: { color: any, onClick: () => any, icon: any }) {
+    return <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+        {
+            <button
+                className={(props.color === "light" ? "bg-blueGray-200" : "bg-blueGray-600")}
+                onClick={props.onClick}
+            >
+                <span
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
+                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                         viewBox="0 0 24 24" stroke="currentColor">
+                        <FontAwesomeIcon icon={props.icon}/>
+                    </svg>
+                </span>
+            </button>
+        }
+    </td>;
+}
+
+function capitalizeWords(string) {
+    return string.replace(/(?:^|\s)\S/g, function (a) {
+        return a.toUpperCase();
+    });
 };

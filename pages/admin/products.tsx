@@ -7,7 +7,7 @@ import CardTables from "/components/Cards/CardTables.tsx";
 import Admin from "/layout/Admin.js";
 import {useRealtime} from "react-supabase";
 import Router from "next/router";
-import Link from "next/link";
+import {faEdit, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 
 // json object of products
 const products = [
@@ -88,8 +88,41 @@ export default function Settings() {
                                ]}
                 //column={["ID", "Name", "Description", "Price", "Discount", "Available Quality", "Category", "Sub Category", "Tags", "Reviews", "Stock", "Discount Price"]}
                                onAddNew={onAddNewFunc}
-                               onEdit={onEditFunc}
-                               onDelete={onDeleteFunc}
+                               primaryKey={[
+                                   {
+                                       showName: "Name",
+                                       name: "name",
+                                       dataKey: "id",
+                                   }
+                               ]}
+                               dataDetail={[
+                                   {
+                                       name: "price",
+                                   },
+                                   {
+                                       name: "discount",
+                                       type: "money",
+                                   },
+                                   {
+                                       name: "category",
+                                   },
+                                   {
+                                       name: "stock",
+                                   },
+                                   {
+                                       name: "edit",
+                                       type: "button",
+                                       onClick: onEditFunc,
+                                       icon: faEdit,
+                                   },
+                                   {
+                                       name: "delete",
+                                       type: "button",
+                                       onClick: onDeleteFunc,
+                                        icon: faTrashCan,
+                                   },
+
+                               ]}
             />
             //return <div>HI</div>
         }
@@ -160,14 +193,14 @@ export default function Settings() {
     function onEditFunc(id) {
         console.log("Edit", id);
         Router.push("/product/[id]", `/product/${id}`).then(r => {
-            console.log(r)
-        }
-        // return (
-        //     <Link href="/product/[id]" as={`/product/${id}`}>
-        //         <a href="#">
-        //             <button>Edit</button>
-        //         </a>
-        //     </Link>
+                console.log(r)
+            }
+            // return (
+            //     <Link href="/product/[id]" as={`/product/${id}`}>
+            //         <a href="#">
+            //             <button>Edit</button>
+            //         </a>
+            //     </Link>
         )
     }
 
