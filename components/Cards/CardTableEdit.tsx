@@ -6,37 +6,6 @@ import TableDropdown from "/components/Dropdowns/TableDropdown.js";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 
-function AddNewButton(props: { color: any, onClick: any }) {
-    return <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-
-        <button
-            className={
-                "bg-slate-700 text-white font-bold py-2 px-4 rounded-full shadow-none focus:outline-none focus:shadow-outline " +
-                (props.color === "light" ? "bg-blueGray-700 text-white" : "bg-white text-blueGray-700")
-            }
-            onClick={props.onClick}
-        >
-            <FontAwesomeIcon icon={faPlus}/>
-            Add New
-        </button>
-        {/*<button
-                                className={(props.color === "light" ? "bg-blueGray-200" : "bg-blueGray-600")}
-                                    onClick={props.onAddNew}
-                            >
-                                <span
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
-                                    <svg className="w-5 h-5" fill="none" strokeLinecap="round"
-                                         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <FontAwesomeIcon icon={faPlus}/>
-                                    </svg>
-                                </span>
-                                Add New
-                            </button>*/}
-
-    </div>;
-}
-
 export default function CardTables({children, className, ...props}) {
     console.log("CardTables props", props);
 
@@ -63,7 +32,34 @@ export default function CardTables({children, className, ...props}) {
 
 
                         {/*Add new button in Right edge of table */}
-                        <AddNewButton color={props.color} onClick={props.onAddNew}/>
+                        <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+
+                            <button
+                                className={
+                                    "bg-slate-700 text-white font-bold py-2 px-4 rounded-full shadow-none focus:outline-none focus:shadow-outline " +
+                                    (props.color === "light" ? "bg-blueGray-700 text-white" : "bg-white text-blueGray-700")
+                                }
+                                onClick={props.onAddNew}
+                            >
+                                <FontAwesomeIcon icon={faPlus}/>
+                                Add New
+                            </button>
+                            {/*<button
+                                className={(props.color === "light" ? "bg-blueGray-200" : "bg-blueGray-600")}
+                                    onClick={props.onAddNew}
+                            >
+                                <span
+                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-none text-blueGray-600 bg-blueGray-100 hover:bg-blueGray-200">
+                                    <svg className="w-5 h-5" fill="none" strokeLinecap="round"
+                                         strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <FontAwesomeIcon icon={faPlus}/>
+                                    </svg>
+                                </span>
+                                Add New
+                            </button>*/}
+
+                        </div>
 
                     </div>
                 </div>
