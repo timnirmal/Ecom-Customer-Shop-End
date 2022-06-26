@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // components
 // layout for page
 import Admin from "/layout/Admin.js";
 import {supabaseClient} from "../../lib/supabase";
+import {useRouter} from 'next/router'
 
 
 function InputField(props: { htmlFor: string, fieldName: string, placeholder: string, value: string, onChange: (e) => void, fieldDescription: string, fieldSize: string }) {
@@ -35,10 +36,16 @@ function InputField(props: { htmlFor: string, fieldName: string, placeholder: st
     </div>;
 }
 
-export default function NewProduct(...props: any[]) {
-    console.log(props);
+export default function NewProduct() {
+
+    let variable;
+
+    const router = useRouter()
+
+
 
     // variable to store the products name
+    const [data, setData] = React.useState({});
     const [ID, setID] = React.useState("");
     const [Name, setName] = React.useState("");
     const [Description, setDescription] = React.useState("");
@@ -54,6 +61,39 @@ export default function NewProduct(...props: any[]) {
     const [Images, setImages] = React.useState("");
     const [Image, setImage] = React.useState("");
     const [SKU, setSKU] = React.useState("");
+
+    /*
+    // variable to store the products name
+    async function readProduct() {
+        // take the id from the url
+        const {id} = router.query
+        console.log(id);
+
+        let {data, error} = await supabaseClient
+            .from('products')
+            .select("*")
+            .eq('id', 3)
+
+
+        setID(data[0].id);
+        setName(data[0].name);
+        setDescription(data[0].description);
+        setPrice(data[0].price);
+        setDiscount(data[0].discount);
+        setAvailableQuality(data[0].available_quality);
+        setCategory(data[0].category);
+        setSubCategory(data[0].sub_category);
+        setTags(data[0].tags);
+        setReviews(data[0].reviews);
+        setStock(data[0].stock);
+        setDiscountPrice(data[0].discount_price);
+        setImages(data[0].images);
+    }
+
+    useEffect(() => {
+        readProduct();
+    }, []);
+    */
 
 
     async function addProduct() {
@@ -103,14 +143,15 @@ export default function NewProduct(...props: any[]) {
                         {/*Product ID Label*/}
                         <div className="md:w-full lg:w-1/2  p-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                      htmlFor="ID">
+                                   htmlFor="ID">
                                 Product ID
                             </label>
                             {/*Label uneditable*/}
                             <input
                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 id="ID" type="text" placeholder="Product ID"
-                                value={props.ID}
+                                //value={id}
+                                value={ID}
                                 onChange={(e) => setID(e.target.value)}
                                 readOnly={true}
                                 disabled={true}
@@ -119,12 +160,6 @@ export default function NewProduct(...props: any[]) {
                                 Product ID is automatically generated.
                             </p>
                         </div>
-
-
-                        <InputField htmlFor="grid-product-name" fieldName="Product ID" placeholder="Product ID"
-                                    value={ID}
-                                    onChange={(e) => setID(e.target.value)}
-                                    fieldDescription="This is the name of the product"/>
 
                         {/*Product Name*/}
                         <InputField htmlFor="grid-product-name" fieldName="Product Name" placeholder="Product Name"

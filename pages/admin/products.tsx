@@ -192,7 +192,8 @@ export default function Settings() {
 
     function onEditFunc(id) {
         console.log("Edit", id);
-        Router.push("/product/[id]", `/product/${id}`).then(r => {
+        Router.push(
+            {pathname: "/product/[id]", query: { name: 'Someone' }}, `/product/${id}`).then(r => {
                 console.log(r)
             }
             // return (
