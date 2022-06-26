@@ -11,7 +11,7 @@ export default function CardTables({children, className, ...props}) {
     return (
         <div className={`card ${className}`} {...props}>
             <div
-                className={"relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " + (props.color === "light" ? "bg-white" : "bg-blueGray-700 text-white")}>
+                className={"relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " + (props.color === "light" ? "bg-white" : "bg-blue-900 text-white")}>
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="flex flex-wrap items-center">
                         {/*Title*/}
@@ -65,23 +65,6 @@ export default function CardTables({children, className, ...props}) {
 
                                         ))
                                     }
-
-
-                                    {/*<Cell colName={product.price}/>*/}
-
-                                    {/*<Cell colName={product.discount} type={"money"}/>*/}
-
-                                    {/*<Cell colName={product.category}/>*/}
-
-                                    {/*<Cell colName={product.stock}/>*/}
-
-                                    {/*Edit Icon Button*/}
-                                    <IconButton onClick={() => props.onEdit(product.id)}
-                                                icon={faEdit}/>
-
-                                    {/*Delete Icon Button*/}
-                                    <IconButton color={props.color} onClick={() => props.onDelete(product.id)}
-                                                icon={faTrashCan}/>
 
                                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                                         <TableDropdown/>
