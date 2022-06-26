@@ -8,6 +8,7 @@ import Admin from "/layout/Admin.js";
 import {useRealtime} from "react-supabase";
 import Router from "next/router";
 import {faEdit, faTrashCan} from '@fortawesome/free-solid-svg-icons'
+import {supabaseClient} from "../../lib/supabase";
 
 // json object of products
 const products = [
@@ -207,6 +208,22 @@ export default function Settings() {
 
     function onDeleteFunc(id) {
         console.log("Delete", id);
+
+        async function DeleteProduct(id) {
+            console.log("Delete", id);
+            const {data, error} = await supabaseClient
+                .from('products')
+                .delete()
+                .eq('id', id)
+                .then(res => {
+                    console.log(res)
+                    return res
+                })
+            console.log("Data", data)
+            console.log("Error", error)
+        }
+
+        DeleteProduct(id);
     }
 }
 
