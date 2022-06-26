@@ -38,30 +38,10 @@ function InputField(props: { htmlFor: string, fieldName: string, placeholder: st
 
 export default function NewProduct( {id,data,error}) {
 
-    let variable;
+    console.log("Data", data[0]);
+    console.log("Error", error);
+    console.log("Id", id);
 
-    console.log(data);
-    console.log(error);
-    console.log(id);
-
-
-
-    // variable to store the products name
-    // const [ID, setID] = React.useState("");
-    // const [Name, setName] = React.useState("");
-    // const [Description, setDescription] = React.useState("");
-    // const [Price, setPrice] = React.useState("");
-    // const [Discount, setDiscount] = React.useState("");
-    // const [AvailableQuality, setAvailableQuality] = React.useState("");
-    // const [Category, setCategory] = React.useState("");
-    // const [SubCategory, setSubCategory] = React.useState("");
-    // const [Tags, setTags] = React.useState("");
-    // const [Reviews, setReviews] = React.useState("");
-    // const [Stock, setStock] = React.useState("");
-    // const [DiscountPrice, setDiscountPrice] = React.useState("");
-    // const [Images, setImages] = React.useState("");
-    // const [Image, setImage] = React.useState("");
-    // const [SKU, setSKU] = React.useState("");
 
     const [ID, setID] = React.useState(id);
     const [Name, setName] = React.useState(data[0].name);
@@ -80,66 +60,11 @@ export default function NewProduct( {id,data,error}) {
     const [SKU, setSKU] = React.useState(data[0].SKU);
 
 
-    // data.id?setID(data.id):setID("");
-    // data.name?setName(data.name):setName("");
-    // data.description?setDescription(data.description):setDescription("");
-    // data.price?setPrice(data.price):setPrice("");
-    // data.discount?setDiscount(data.discount):setDiscount("");
-    // data.available_quality?setAvailableQuality(data.available_quality):setAvailableQuality("");
-    // data.category?setCategory(data.category):setCategory("");
-    // data.sub_category?setSubCategory(data.sub_category):setSubCategory("");
-    // data.tags?setTags(data.tags):setTags("");
-    // data.reviews?setReviews(data.reviews):setReviews("");
-    // data.stock?setStock(data.stock):setStock("");
-    // data.discount_price?setDiscountPrice(data.discount_price):setDiscountPrice("");
-    // data.images?setImages(data.images):setImages("");
-    // data.image?setImage(data.image):setImage("");
-    // data.sku?setSKU(data.sku):setSKU("");
-
-
-
-
-
-    /*
-    // variable to store the products name
-    async function readProduct() {
-        // take the id from the url
-        const {id} = router.query
-        console.log(id);
-
-        let {data, error} = await supabaseClient
-            .from('products')
-            .select("*")
-            .eq('id', 3)
-
-
-        setID(data[0].id);
-        setName(data[0].name);
-        setDescription(data[0].description);
-        setPrice(data[0].price);
-        setDiscount(data[0].discount);
-        setAvailableQuality(data[0].available_quality);
-        setCategory(data[0].category);
-        setSubCategory(data[0].sub_category);
-        setTags(data[0].tags);
-        setReviews(data[0].reviews);
-        setStock(data[0].stock);
-        setDiscountPrice(data[0].discount_price);
-        setImages(data[0].images);
-    }
-
-    useEffect(() => {
-        readProduct();
-    }, []);
-    */
-
-
     async function addProduct() {
         // add product to database
         console.log("add product");
         // create product object
         let product = {
-            id: ID,
             name: Name,
             description: Description,
             price: Price,
@@ -150,20 +75,20 @@ export default function NewProduct( {id,data,error}) {
             stock: Stock,
         }
 
-        console.log(product);
-
         try {
             // add product to database
             const {data, error} = await supabaseClient
                 .from('products')
-                .insert([
+                .update([
                     {...product}
-                ]).then(res => {
+                ])
+                .eq('id', ID)
+                .then(res => {
                     if (res.error) {
                         console.log("Res.ERROR", res.error);
                     }
                 })
-            console.log("Insert Done")
+            console.log("Update Done")
         } catch (err) {
             console.log("ERR");
         }
@@ -304,12 +229,12 @@ NewProduct.layout = Admin;
 NewProduct.getInitialProps = async ({query}) => {
 
     const {id} = query
-    console.log(id);
+    console.log("inital Props ", id);
 
     let {data, error} = await supabaseClient
         .from('products')
         .select("*")
-        .eq('id', 3)
+        .eq('id', id)
 
     console.log(data);
     console.log(error);
