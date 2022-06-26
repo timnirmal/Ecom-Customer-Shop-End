@@ -36,31 +36,69 @@ function InputField(props: { htmlFor: string, fieldName: string, placeholder: st
     </div>;
 }
 
-export default function NewProduct() {
+export default function NewProduct( {id,data,error}) {
 
     let variable;
 
-    const router = useRouter()
+    console.log(data);
+    console.log(error);
+    console.log(id);
 
 
 
     // variable to store the products name
-    const [data, setData] = React.useState({});
-    const [ID, setID] = React.useState("");
-    const [Name, setName] = React.useState("");
-    const [Description, setDescription] = React.useState("");
-    const [Price, setPrice] = React.useState("");
-    const [Discount, setDiscount] = React.useState("");
-    const [AvailableQuality, setAvailableQuality] = React.useState("");
-    const [Category, setCategory] = React.useState("");
-    const [SubCategory, setSubCategory] = React.useState("");
-    const [Tags, setTags] = React.useState("");
-    const [Reviews, setReviews] = React.useState("");
-    const [Stock, setStock] = React.useState("");
-    const [DiscountPrice, setDiscountPrice] = React.useState("");
-    const [Images, setImages] = React.useState("");
-    const [Image, setImage] = React.useState("");
-    const [SKU, setSKU] = React.useState("");
+    // const [ID, setID] = React.useState("");
+    // const [Name, setName] = React.useState("");
+    // const [Description, setDescription] = React.useState("");
+    // const [Price, setPrice] = React.useState("");
+    // const [Discount, setDiscount] = React.useState("");
+    // const [AvailableQuality, setAvailableQuality] = React.useState("");
+    // const [Category, setCategory] = React.useState("");
+    // const [SubCategory, setSubCategory] = React.useState("");
+    // const [Tags, setTags] = React.useState("");
+    // const [Reviews, setReviews] = React.useState("");
+    // const [Stock, setStock] = React.useState("");
+    // const [DiscountPrice, setDiscountPrice] = React.useState("");
+    // const [Images, setImages] = React.useState("");
+    // const [Image, setImage] = React.useState("");
+    // const [SKU, setSKU] = React.useState("");
+
+    const [ID, setID] = React.useState(id);
+    const [Name, setName] = React.useState(data[0].name);
+    const [Description, setDescription] = React.useState(data[0].description);
+    const [Price, setPrice] = React.useState(data[0].price);
+    const [Discount, setDiscount] = React.useState(data[0].discount);
+    const [AvailableQuality, setAvailableQuality] = React.useState(data[0].available_quality);
+    const [Category, setCategory] = React.useState(data[0].category);
+    const [SubCategory, setSubCategory] = React.useState(data[0].sub_category);
+    const [Tags, setTags] = React.useState(data[0].tags);
+    const [Reviews, setReviews] = React.useState(data[0].reviews);
+    const [Stock, setStock] = React.useState(data[0].stock);
+    const [DiscountPrice, setDiscountPrice] = React.useState(data[0].discount_price);
+    const [Images, setImages] = React.useState(data[0].images);
+    const [Image, setImage] = React.useState(data[0].image);
+    const [SKU, setSKU] = React.useState(data[0].SKU);
+
+
+    // data.id?setID(data.id):setID("");
+    // data.name?setName(data.name):setName("");
+    // data.description?setDescription(data.description):setDescription("");
+    // data.price?setPrice(data.price):setPrice("");
+    // data.discount?setDiscount(data.discount):setDiscount("");
+    // data.available_quality?setAvailableQuality(data.available_quality):setAvailableQuality("");
+    // data.category?setCategory(data.category):setCategory("");
+    // data.sub_category?setSubCategory(data.sub_category):setSubCategory("");
+    // data.tags?setTags(data.tags):setTags("");
+    // data.reviews?setReviews(data.reviews):setReviews("");
+    // data.stock?setStock(data.stock):setStock("");
+    // data.discount_price?setDiscountPrice(data.discount_price):setDiscountPrice("");
+    // data.images?setImages(data.images):setImages("");
+    // data.image?setImage(data.image):setImage("");
+    // data.sku?setSKU(data.sku):setSKU("");
+
+
+
+
 
     /*
     // variable to store the products name
@@ -262,3 +300,23 @@ export default function NewProduct() {
 }
 
 NewProduct.layout = Admin;
+
+NewProduct.getInitialProps = async ({query}) => {
+
+    const {id} = query
+    console.log(id);
+
+    let {data, error} = await supabaseClient
+        .from('products')
+        .select("*")
+        .eq('id', 3)
+
+    console.log(data);
+    console.log(error);
+
+    return {
+        id: id,
+        data: data,
+        error: error
+    }
+}
