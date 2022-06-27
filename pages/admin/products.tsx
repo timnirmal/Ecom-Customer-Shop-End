@@ -39,6 +39,7 @@ export default function Products() {
                                        showName: "Name",
                                        name: "name",
                                        dataKey: "id",
+                                       bold: true,
                                    }
                                ]}
                                datadetail={[

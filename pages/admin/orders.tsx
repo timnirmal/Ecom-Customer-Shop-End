@@ -7,8 +7,8 @@ import {faEdit, faTrashCan} from '@fortawesome/free-solid-svg-icons'
 import {supabaseClient} from "../../lib/supabase";
 
 
-export default function Customers() {
-    const [result] = useRealtime('profiles', {
+export default function Orders() {
+    const [result] = useRealtime('orders', {
             select: {
                 columns: "*",
             }
@@ -28,24 +28,39 @@ export default function Customers() {
         }
         if (data?.length) {
             console.log("Running Data", data)
-            return <CardTables title="Customers"
+            return <CardTables title="Orders"
                                data={data}
+                               column={[
+                                   "Username", "Payment", "Discount", "Orders"
+                               ]}
                                //onAddNew={onAddNewFunc}
                                primarykey={[
                                    {
-                                       showName: "User Name",
+                                       showName: "username",
                                        name: "username",
                                        dataKey: "id",
-                                        bold: true,
+                                       bold: false,
                                    }
                                ]}
                                datadetail={[
                                    {
-                                       name: "email",
+                                       name: "payment",
                                    },
                                    {
-                                       name: "joinedat",
-                                       type: "date",
+                                       name: "discount",
+                                       type: "money",
+                                   },
+                                   {
+                                       name: "orders",
+                                   },
+                                   {
+                                       name: "stock",
+                                   },
+                                   {
+                                       name: "edit",
+                                       type: "button",
+                                       onClick: onEditFunc,
+                                       icon: faEdit,
                                    },
                                    {
                                        name: "delete",
@@ -53,6 +68,7 @@ export default function Customers() {
                                        onClick: onDeleteFunc,
                                        icon: faTrashCan,
                                    },
+
                                ]}
             />
         }
@@ -76,7 +92,7 @@ export default function Customers() {
     function onEditFunc(id) {
         console.log("Edit", id);
         Router.push(
-            {pathname: "/product/[id]", query: {name: 'Someone'}}, `/product/${id}`).then(r => {
+            {pathname: "/order/[id]", query: {name: 'Someone'}}, `/order/${id}`).then(r => {
                 console.log(r)
             }
         )
@@ -88,7 +104,7 @@ export default function Customers() {
         async function DeleteProduct(id) {
             console.log("Delete", id);
             const {data, error} = await supabaseClient
-                .from('products')
+                .from('orders')
                 .delete()
                 .eq('id', id)
                 .then(res => {
@@ -105,4 +121,4 @@ export default function Customers() {
     }
 }
 
-Customers.layout = Admin;
+Orders.layout = Admin;

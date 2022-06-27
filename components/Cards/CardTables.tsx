@@ -9,6 +9,7 @@ import {faPlus} from '@fortawesome/free-solid-svg-icons'
 export default function CardTables({children, className, ...props}) {
     console.log("CardTables props", props);
 
+
     return (
         <div className={`card ${className}`} {...props}>
             <div
@@ -50,7 +51,7 @@ export default function CardTables({children, className, ...props}) {
                             props.data.map((product) => (
                                 <tr>
                                     {/*First data cell in Row*/}
-                                    <CellHead colName={product.name} bold={true} primary={true}
+                                    <CellHead colName={product[props.primarykey[0].name]} bold={props.primarykey[0].bold} primary={true}
                                               dataKey={product[props.primarykey.id]}/>
 
                                     {/*Other data cells in a row*/}
@@ -156,10 +157,11 @@ function CellDate(props: { colName: any }) {
 function CellHead(props: { colName: any, type?: any, bold?: any, primary?: any, dataKey?: any }) {
     return (
 
-        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ml-3 font-bold"
+        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ml-3"
             key={props.dataKey}
         >
             {props.type === "money" ? "$" : ""} {props.colName}
+
         </th>
     );
 }
