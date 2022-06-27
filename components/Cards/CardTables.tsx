@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 import TableDropdown from "/components/Dropdowns/TableDropdown.js";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEdit, faPlus, faTrashCan} from '@fortawesome/free-solid-svg-icons'
+import {faPlus} from '@fortawesome/free-solid-svg-icons'
+
 
 export default function CardTables({children, className, ...props}) {
     console.log("CardTables props", props);
@@ -31,11 +32,11 @@ export default function CardTables({children, className, ...props}) {
                     <table className="items-center w-full bg-transparent border-collapse">
                         <thead>
                         <tr>
-                            <th key={props.primaryKey[0].dataKey}
+                            <th key={props.primarykey[0].dataKey}
                                 className={"px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " + (props.color === "light" ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100" : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")}>
-                                {props.primaryKey[0].showName}
+                                {props.primarykey[0].showName}
                             </th>
-                            {props.dataDetail.map((dataD) =>
+                            {props.datadetail.map((dataD) =>
                                 (<th key={dataD.id}
                                      className={"px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " + (props.color === "light" ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100" : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")}>
                                     {dataD.showName ? dataD.showName : dataD.name}
@@ -50,18 +51,20 @@ export default function CardTables({children, className, ...props}) {
                                 <tr>
                                     {/*First data cell in Row*/}
                                     <CellHead colName={product.name} bold={true} primary={true}
-                                              dataKey={product[props.primaryKey.id]}/>
+                                              dataKey={product[props.primarykey.id]}/>
 
                                     {/*Other data cells in a row*/}
                                     {
-                                        props.dataDetail.map((dataD) => (
+                                        props.datadetail.map((dataD) => (
                                             dataD.type === "button" ?
                                                 <IconButton color={props.color}
                                                             onClick={() => dataD.onClick(product.id)}
                                                             icon={dataD.icon}/>
-                                                :
-                                                <Cell colName={product[dataD.name]} bold={false} primary={false}
-                                                      type={dataD.type}/>
+                                                : dataD.type === "date" ?
+                                                    <CellDate colName={product[dataD.name]}/>
+                                                    :
+                                                    <Cell colName={product[dataD.name]} bold={false} primary={false}
+                                                          type={dataD.type}/>
 
                                         ))
                                     }
@@ -141,6 +144,15 @@ function Cell(props: { colName: any, type?: any, bold?: any, primary?: any, data
     );
 }
 
+function CellDate(props: { colName: any }) {
+    return (
+        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+            <span>{new Date(props.colName).toISOString().split('T')[0]}</span>
+
+        </td>
+    )
+}
+
 function CellHead(props: { colName: any, type?: any, bold?: any, primary?: any, dataKey?: any }) {
     return (
 
@@ -176,3 +188,14 @@ function capitalizeWords(string) {
         return a.toUpperCase();
     });
 };
+
+
+// var datemysql = "2022-06-18T12:34:00.133789+00:00" ;
+// // convert mysql date to js date
+// var date = new Date(datemysql);
+// console.log(date);
+// // get date in format YYYY-MM-DD
+// var dateString = date.toISOString().split('T')[0];
+// console.log(dateString);
+
+// console.log(new Date(datemysql).toISOString().split('T')[0]);

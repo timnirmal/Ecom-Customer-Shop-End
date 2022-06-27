@@ -1,54 +1,107 @@
-import React, { useState, useEffect } from "react"
-import Table from "../../components/Cards/ReactTable.tsx";
+import React from "react";
+import CardTables from "/components/Cards/CardTables.tsx";
+import Admin from "/layout/Admin.js";
+import {useRealtime} from "react-supabase";
+import Router from "next/router";
+import {faEdit, faTrashCan} from '@fortawesome/free-solid-svg-icons'
+import {supabaseClient} from "../../lib/supabase";
 
-function Customers() {
-    const data = [
-        { username: "1", email: "sds", gender: "male", phone: "023" },
-        { username: "2", email: "fggf", gender: "female", phone: "23232" }
-    ]
 
+export default function Customers() {
+    const [result] = useRealtime('profiles', {
+            select: {
+                columns: "*",
+            }
+        }
+    )
+    const {data, fetching, error} = result
+    console.log("Int Data ", data)
 
-    const [rowdata, setRowData] = useState(data)
-    const onAddRowClick = () => {
-        setRowData(
-            rowdata.concat({ username: "", email: "", gender: "", phone: "" })
-        )
+    function RenderProducts() {
+        if (fetching) {
+            console.log("Fetching")
+            return <div>Loading...</div>
+        }
+        if (error) {
+            console.log("Error", error)
+            return <div>Error: {error.message}</div>
+        }
+        if (data?.length) {
+            console.log("Running Data", data)
+            return <CardTables title="Customers"
+                               data={data}
+                               //onAddNew={onAddNewFunc}
+                               primarykey={[
+                                   {
+                                       showName: "User Name",
+                                       name: "username",
+                                       dataKey: "id",
+                                   }
+                               ]}
+                               datadetail={[
+                                   {
+                                       name: "email",
+                                   },
+                                   {
+                                       name: "joinedat",
+                                       type: "date",
+                                   },
+                                   {
+                                       name: "delete",
+                                       type: "button",
+                                       onClick: onDeleteFunc,
+                                       icon: faTrashCan,
+                                   },
+                               ]}
+            />
+        }
     }
-    const columns = [
-        {
-            Header: "Name",
-            accessor: "username",
-        },
-        {
-            Header: "Email",
-            accessor: "email",
-        },
-        {
-            Header: "Gender",
-            accessor: "gender",
-        },
-        {
-            Header: "Phone",
-            accessor: "phone",
-        },
-    ]
-
-
-
-
 
     return (
-        <div className="container mx-auto">
-            {/*<button
-                onClick={onAddRowClick}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Add Row
-            </button>*/}
-            <div className="flex justify-center mt-8">
-                <Table columns={columns} data={rowdata} />
+        <Admin>
+            <div className="flex flex-wrap">
+                {RenderProducts()}
             </div>
-        </div>
-    )
+        </Admin>
+    );
+
+    function onAddNewFunc() {
+        console.log("Add new");
+        Router.push("/admin/new").then(r => {
+            console.log(r)
+        });
+    }
+
+    function onEditFunc(id) {
+        console.log("Edit", id);
+        Router.push(
+            {pathname: "/product/[id]", query: {name: 'Someone'}}, `/product/${id}`).then(r => {
+                console.log(r)
+            }
+        )
+    }
+
+    function onDeleteFunc(id) {
+        console.log("Delete", id);
+
+        async function DeleteProduct(id) {
+            console.log("Delete", id);
+            const {data, error} = await supabaseClient
+                .from('products')
+                .delete()
+                .eq('id', id)
+                .then(res => {
+                    console.log(res)
+                    return res
+                })
+            console.log("Data", data)
+            console.log("Error", error)
+        }
+
+        DeleteProduct(id).then(r => {
+            console.log(r)
+        });
+    }
 }
-export default Customers
+
+Customers.layout = Admin;

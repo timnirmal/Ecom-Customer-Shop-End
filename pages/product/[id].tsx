@@ -1,11 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 
-// components
-// layout for page
 import Admin from "/layout/Admin.js";
 import {supabaseClient} from "../../lib/supabase";
-import {useRouter} from 'next/router'
-
 
 function InputField(props: { htmlFor: string, fieldName: string, placeholder: string, value: string, onChange: (e) => void, fieldDescription: string, fieldSize: string }) {
 
@@ -36,12 +32,10 @@ function InputField(props: { htmlFor: string, fieldName: string, placeholder: st
     </div>;
 }
 
-export default function NewProduct( {id,data,error}) {
-
+export default function NewProduct({id, data, error}) {
     console.log("Data", data[0]);
     console.log("Error", error);
     console.log("Id", id);
-
 
     const [ID, setID] = React.useState(id);
     const [Name, setName] = React.useState(data[0].name);
@@ -76,7 +70,6 @@ export default function NewProduct( {id,data,error}) {
         }
 
         try {
-            // add product to database
             const {data, error} = await supabaseClient
                 .from('products')
                 .update([

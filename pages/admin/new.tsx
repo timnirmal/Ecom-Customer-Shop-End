@@ -88,7 +88,6 @@ export default function NewProduct() {
 
     }
 
-
     return (
         <Admin>
             <div className="flex flex-wrap">
