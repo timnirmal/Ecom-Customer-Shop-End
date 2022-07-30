@@ -14,7 +14,7 @@ export default function FooterAdmin() {
                   href="https://www.creative-tim.com?ref=nnjs-footer-admin"
                   className="text-blueGray-500 hover:text-blueGray-700 text-sm font-semibold py-1"
                 >
-                  Creative Tim
+                  AI Ecom
                 </a>
               </div>
             </div>
@@ -25,7 +25,7 @@ export default function FooterAdmin() {
                     href="https://www.creative-tim.com?ref=nnjs-footer-admin"
                     className="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3"
                   >
-                    Creative Tim
+                    AI Ecom
                   </a>
                 </li>
                 <li>
@@ -36,6 +36,7 @@ export default function FooterAdmin() {
                     About Us
                   </a>
                 </li>
+                {/*
                 <li>
                   <a
                     href="http://blog.creative-tim.com?ref=nnjs-footer-admin"
@@ -52,6 +53,7 @@ export default function FooterAdmin() {
                     MIT License
                   </a>
                 </li>
+                */}
               </ul>
             </div>
           </div>

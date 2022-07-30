@@ -27,7 +27,7 @@ export default function Sidebar() {
                         <a
                             href="#pablo"
                             className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                        >
+                        >k
                             Ecom
                         </a>
                     </Link>
@@ -87,7 +87,7 @@ export default function Sidebar() {
                         <hr className="my-4 md:min-w-full"/>
                         {/* Heading */}
                         <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-                            Admin Layout Pages
+                            Admin
                         </h6>
                         {/* Navigation */}
 
@@ -116,6 +116,7 @@ export default function Sidebar() {
                                 </Link>
                             </li>
 
+                            {/*
                             <li className="items-center">
                                 <Link href="/admin/settings">
                                     <a
@@ -163,6 +164,8 @@ export default function Sidebar() {
                                     </a>
                                 </Link>
                             </li>
+                            */}
+
 
                             {/*<li className="items-center">
                                 <Link href="/admin/maps">
@@ -247,7 +250,7 @@ export default function Sidebar() {
                                                     : "text-blueGray-300")
                                             }
                                         ></i>{" "}
-                                        Customers
+                                        Customerss
                                     </a>
                                 </Link>
                             </li>
@@ -276,6 +279,7 @@ export default function Sidebar() {
                                 </Link>
                             </li>
 
+
                             <li className="items-center">
                                 <Link href="/admin/tables">
                                     <a
@@ -295,12 +299,13 @@ export default function Sidebar() {
                                                     : "text-blueGray-300")
                                             }
                                         ></i>{" "}
-                                        Tables
+                                        Offers
                                     </a>
                                 </Link>
                             </li>
 
-                            {/*<li className="items-center">
+                            {/*
+                            <li className="items-center">
                                 <Link href="/admin/maps">
                                     <a
                                         href="#pablo"
@@ -330,7 +335,7 @@ export default function Sidebar() {
                         <hr className="my-4 md:min-w-full"/>
                         {/* Heading */}
                         <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-                            Auth Layout Pages
+                            Business Analytics
                         </h6>
                         {/* Navigation */}
 
@@ -342,11 +347,12 @@ export default function Sidebar() {
                                         className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
                                     >
                                         <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i>{" "}
-                                        Login
+                                        Customer Segmentation
                                     </a>
                                 </Link>
                             </li>
 
+                            {/*
                             <li className="items-center">
                                 <Link href="/auth/register">
                                     <a
@@ -358,13 +364,14 @@ export default function Sidebar() {
                                     </a>
                                 </Link>
                             </li>
+                            */}
                         </ul>
 
                         {/* Divider */}
                         <hr className="my-4 md:min-w-full"/>
                         {/* Heading */}
                         <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-                            No Layout Pages
+                            Reports
                         </h6>
                         {/* Navigation */}
 
@@ -376,7 +383,7 @@ export default function Sidebar() {
                                         className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
                                     >
                                         <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>{" "}
-                                        Landing Page
+                                        Sales
                                     </a>
                                 </Link>
                             </li>
@@ -388,19 +395,20 @@ export default function Sidebar() {
                                         className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
                                     >
                                         <i className="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i>{" "}
-                                        Profile Page
+                                        Transactions
                                     </a>
                                 </Link>
                             </li>
                         </ul>
 
-                        {/* Divider */}
-                        <hr className="my-4 md:min-w-full"/>
-                        {/* Heading */}
-                        <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-                            Documentation
-                        </h6>
-                        {/* Navigation */}
+                        {/*/!* Divider *!/*/}
+                        {/*<hr className="my-4 md:min-w-full"/>*/}
+                        {/*/!* Heading *!/*/}
+                        {/*<h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">*/}
+                        {/*    Documentation*/}
+                        {/*</h6>*/}
+                        {/*/!* Navigation *!/*/}
+                        {/*
                         <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
                             <li className="inline-flex">
                                 <a
@@ -490,6 +498,7 @@ export default function Sidebar() {
                                 </a>
                             </li>
                         </ul>
+                        */}
                     </div>
                 </div>
             </nav>

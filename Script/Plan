@@ -1,0 +1,60 @@
+Offers:
+
+1. To set discounts wee need to make take each product table and let set the discount values one by one
+2. Make rules for each product cateogty
+
+
+Catergory and sub category
+
+- Shirt
+-- Women ath nathi
+-- Men
+- Bottom
+-- Short
+-- Long
+-- Denim
+
+category Id - bigint / cat name
+catergory name (unique)
+category discount
+category offers (text)
+category description
+
+sub category Id - bigint / cat name (unique)
+sub catergory name -
+sub category discount
+sub category offers (text)
+sub category description
+category id as f key
+
+Then in shop end end,
+Create, edit, delete, view category functions added.
+When deleting all the products in that category moves to uncategorized along with the sub categories
+    - Either delete producys along with sub categories
+    - Move with sub cats
+    - Move without sub cat
+
+In customer end build view by cat and sub cat along with search option
+
+Search option includes search by keywords, tags, category, properties (color, price, size )
+
+before that tags also need to created
+
+tag id - bigInt
+tag name
+tag discount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

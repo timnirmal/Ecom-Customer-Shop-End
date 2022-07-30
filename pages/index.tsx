@@ -10,11 +10,15 @@ import CardSocialTraffic from "/components/Cards/CardSocialTraffic.js";
 // layout for page
 
 import Admin from "/layout/Admin.js";
+import Head from "next/head";
 
 export default function Dashboard() {
     return (
         <>
             <Admin>
+                <Head>
+                    <title>Dashboard</title>
+                </Head>
                 <div className="flex flex-wrap">
                     <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
                         <CardLineChart />
