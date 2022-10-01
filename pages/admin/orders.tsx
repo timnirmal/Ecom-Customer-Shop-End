@@ -51,10 +51,7 @@ export default function Orders() {
                                        type: "money",
                                    },
                                    {
-                                       name: "orders",
-                                   },
-                                   {
-                                       name: "stock",
+                                       name: "status",
                                    },
                                    {
                                        name: "edit",
