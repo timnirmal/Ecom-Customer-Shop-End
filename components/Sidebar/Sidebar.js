@@ -352,6 +352,31 @@ export default function Sidebar() {
                                 </Link>
                             </li>
 
+
+                            <li className="items-center">
+                                <Link href="/admin/userinteractions">
+                                    <a
+                                        href="#"
+                                        className={
+                                            "text-xs uppercase py-3 font-bold block " +
+                                            (router.pathname.indexOf("/admin/userinteractions") !== -1
+                                                ? "text-lightBlue-500 hover:text-lightBlue-600"
+                                                : "text-blueGray-700 hover:text-blueGray-500")
+                                        }
+                                    >
+                                        <i
+                                            className={
+                                                "fas fa-cart-shopping mr-2 text-sm " +
+                                                (router.pathname.indexOf("/admin/userinteractinos") !== -1
+                                                    ? "opacity-75"
+                                                    : "text-blueGray-300")
+                                            }
+                                        ></i>{" "}
+                                        User Interactions
+                                    </a>
+                                </Link>
+                            </li>
+
                             {/*
                             <li className="items-center">
                                 <Link href="/auth/register">
