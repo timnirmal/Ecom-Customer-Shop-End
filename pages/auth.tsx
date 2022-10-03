@@ -2,9 +2,11 @@ import {useState, useEffect} from 'react'
 import {NextPage} from 'next'
 import {NextAppPageProps} from '../types/app'
 import Layout from '../components/Layout'
-import {FaLock, FaGithub} from 'react-icons/fa'
+import {FaLock, FaGithub, FaShoppingCart} from 'react-icons/fa'
 import {useAuth} from '../lib/auth'
 import {useFormFields} from '../lib/utils'
+import {supabaseClient} from "../lib/supabase";
+
 
 // define the shape of the SignUp form's fields
 type SignUpFieldProps = {
@@ -19,8 +21,9 @@ const FORM_VALUES: SignUpFieldProps = {
 }
 
 const IndexPage: NextPage<NextAppPageProps> = ({}) => {
-    const [isSignIn, setIsSignIn] = useState(true)
-    const {loading, signIn, signUp, users, signInWithGithub} = useAuth()
+    const {loading, users, logIn} = useAuth()
+
+    console.log('users from', users)
     // Now since we have our form ready, what we're going to need for signing up our users
     // 1. let users provide email and password
     const [values, handleChange] = useFormFields<SignUpFieldProps>(FORM_VALUES)
@@ -30,7 +33,7 @@ const IndexPage: NextPage<NextAppPageProps> = ({}) => {
         event.preventDefault()
         console.log('Submitting form', values)
 
-        isSignIn ? signIn(values) : signUp(values)
+        logIn(values)
     }
 
     return (
@@ -39,23 +42,16 @@ const IndexPage: NextPage<NextAppPageProps> = ({}) => {
 
                 {/* App logo and tagline*/}
                 <div className="w-full text-center mb-4 flex  flex-col place-items-center">
-                    <div><FaLock className="text-gray-600 text-5xl shadow-sm"/></div>
-                    <h3 className="text-3xl text-gray-600">Supa<strong>Auth</strong></h3>
+                    <div><FaShoppingCart className="text-gray-600 text-5xl shadow-sm"/></div>
+                    <h3 className="text-3xl text-gray-600">AI<strong> ECOM</strong></h3>
                     <small>Please provide
-                        your <strong>email</strong> and <strong>password</strong> and {isSignIn ? 'Log In' : 'Sign Up'}
+                        your <strong>email</strong> and <strong>password</strong> and Log In
                     </small>
                 </div>
 
                 {/* Sign Up form  */}
                 <form className="w-full sm:w-1/2 xl:w-1/3" onSubmit={handleSubmit}>
                     <div className="border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
-                        <button onClick={signInWithGithub}
-                                className="flex-1 bg-gray-200 text-green-700 py-3 rounded w-full text-center shadow"
-                        >
-                            <FaGithub
-                                className="inline-block text-2xl"/> {isSignIn ? 'Log In' : 'Sign Up'} with <strong>Github</strong>
-                        </button>
-                        <hr className="my-4"/>
                         <div className="mb-4">
                             <label htmlFor="email" className="block font-semibold text-gray-800 mb-2">Email</label>
                             <input
@@ -90,18 +86,8 @@ const IndexPage: NextPage<NextAppPageProps> = ({}) => {
                             <button type="submit"
                                     className="flex-1 bg-gray-500 border border-gray-600 text-white py-3 rounded w-full text-center shadow"
                             >
-                                {isSignIn ? 'Log In' : 'Sign Up'}
+                                Log In
                             </button>
-                            <div className="flex-1 text-right">
-                                <small
-                                    className="block text-gray-600">{isSignIn ? 'Not a member yet?' : 'Already a member?'} </small>
-                                <a className="block font-semibold" href=""
-                                   onClick={(e) => {
-                                       e.preventDefault()
-                                       setIsSignIn(!isSignIn)
-                                   }}
-                                >{isSignIn ? 'Sign Up' : 'Log In'}</a>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -116,4 +102,29 @@ IndexPage.defaultProps = {
     meta: {
         title: 'SupaAuth - Sign Up'
     }
+}
+
+async function LogIn(values: SignUpFieldProps) {
+    console.log('Logging in', values)
+
+    let {data: worker, error} = await supabaseClient
+        .from('worker')
+        .select('*')
+        .eq('email', values.email)
+        .eq('password', values.password)
+
+    if (error) {
+        console.log('error', error)
+        return
+    }
+
+    if (worker.length > 0) {
+        console.log('worker', worker)
+        window.location.href = '/'
+    }
+
+    console.log('worker', worker)
+
+    localStorage.setItem('user', JSON.stringify(worker))
+
 }
