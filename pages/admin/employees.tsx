@@ -90,7 +90,7 @@ export default function Orders() {
         <Admin>
             <div className="flex flex-wrap">
                 {/*{users  && RenderProducts()}*/}
-                {role == "Admin" && RenderProducts()}
+                {(role == "Admin" || role == "Manager") && RenderProducts()}
                 {!users && role != "Admin" && <div className="flex flex-wrap"> You have no permission to view this page</div>}
             </div>
         </Admin>
