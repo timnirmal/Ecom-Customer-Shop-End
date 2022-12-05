@@ -1,34 +1,108 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI Ecom 
 
-## Getting Started
+This is a e-commerce platform build with AI.
 
-First, run the development server:
+This system consist of three parts:
+1. [Customer End](https://github.com/timnirmal/Ecom-Customer) 
+2. [Shop/Admin End](https://github.com/timnirmal/Ecom-Customer-Shop-End) 
+3. [Python Backend](https://github.com/timnirmal/EcomPyAPI)
+   1. Product Recommendation
+   2. Customer Segmentation
+   3. Business Analysis
+
+## Customer End
+
+The customer end is a web application that allows customers to browse products, add them to their cart, and checkout.
+
+![img.png](readme-images/img.png)
+
+Features:
+- Browse products
+- Add products to cart
+- Checkout
+- View orders, wishlist, and cart
+- View product recommendations
+- Fully Customizable and Dynamic Components
+- Fully Responsive
+- SEO optimized
+
+![img_1.png](readme-images/img_1.png)
+
+## Shop/Admin End
+
+The shop end is a web application that allows shop owners to manage their products, orders, and customers.
+
+![img_2.png](readme-images/img_2.png)
+
+![img_3.png](readme-images/img_3.png)
+
+![img_4.png](readme-images/img_4.png)
+
+Features:
+- Manage products, orders, and customers
+- Realtime
+- 
+
+
+## Python Backend
+
+The python backend is a python script that runs in the background and performs various tasks created with FastAPI.
+          
+### Product Recommendation
+
+
+Architecture
+Content-Based : TF-IDF
+Collaborative Filtering : Model Based | Latent factor model (SVD - Singular Value Decomposition)
+Hybrid version is used by combining these two models in weight CF : BF = 100 : 1
+
+![img_6.png](readme-images/img_6.png)
+
+Closed domain, Retrieval based, and multi-class classification chat-bot.
+
+## Chatbot
+
+![img_7.png](readme-images/img_7.png)
+
+## Customer Segmentation
+
+![img_8.png](readme-images/img_8.png)
+
+# Tech Stack
+
+- NextJS
+- TailwindCSS
+- Supabase
+- FastAPI
+- Vercel
+- Heroku
+- Tensorflow/Keras
+- Scikit Learn
+- Postman
+
+# Installation
+
+Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
+  git clone
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd Ecom-Customer
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Install dependencies
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+  npm install
+```
 
-## Learn More
+Start the server
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+  npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
