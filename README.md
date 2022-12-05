@@ -91,7 +91,7 @@ Clone the repository
 Go to the project directory
 
 ```bash
-  cd Ecom-Customer
+  cd Ecom-Customer-Shop-End
 ```
 
 Install dependencies
